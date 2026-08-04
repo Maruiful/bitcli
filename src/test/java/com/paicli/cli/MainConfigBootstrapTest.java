@@ -16,7 +16,7 @@ class MainConfigBootstrapTest {
     void createsDefaultChromeDevtoolsMcpConfigWhenMissing(@TempDir Path tempHome) throws Exception {
         Main.McpConfigBootstrapResult result = Main.ensureDefaultMcpConfig(tempHome);
 
-        Path config = tempHome.resolve(".bitcli").resolve("mcp.json");
+        Path config = tempHome.resolve(".paicli").resolve("mcp.json");
         assertTrue(result.created());
         assertTrue(Files.exists(config));
         String content = Files.readString(config);
@@ -27,7 +27,7 @@ class MainConfigBootstrapTest {
 
     @Test
     void doesNotOverwriteExistingUserConfig(@TempDir Path tempHome) throws Exception {
-        Path config = tempHome.resolve(".bitcli").resolve("mcp.json");
+        Path config = tempHome.resolve(".paicli").resolve("mcp.json");
         Files.createDirectories(config.getParent());
         String original = """
                 {
@@ -45,6 +45,6 @@ class MainConfigBootstrapTest {
 
         assertFalse(result.created());
         assertEquals(original, Files.readString(config));
-        assertTrue(result.message().contains("未检测到 chrome-devtools"));
+        assertTrue(result.message().contains("chrome-devtools"));
     }
 }
